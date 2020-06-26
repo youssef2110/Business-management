@@ -1,0 +1,52 @@
+<div class="container">
+    <h1>{{title}}</h1>
+    <button *ngIf="stat" (click)="s()" type="button" class="btn btn-outline-dark">Retour</button>
+    <button *ngIf="stat2" (click)="s2()" type="button" class="btn btn-outline-dark">Retour</button>
+ </div>
+<div *ngIf="!load" class="loader"></div>
+<div *ngIf="load">
+<div *ngIf="!stat && !stat2" class="row">
+ <div class="card bg-light" style="width: 18rem;">
+    <a style="cursor: pointer;" (click)="s()">
+    <img src="assets/Stat.png" style="padding: 20px;" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h2 class="card-title" style="text-align:center;">Ventes</h2>
+    </div>
+    </a>
+  </div>
+  <div class="card bg-light" style="width: 18rem;">
+    <a style="cursor: pointer;" (click)="s2()">
+    <img src="assets/Stat.png" style="padding: 20px;" class="card-img-top" alt="...">
+    <div class="card-body">
+        <h2 class="card-title" style="text-align: center;">Achats</h2>
+    </div>
+    </a>
+  </div>
+</div>
+<div *ngIf="stat">
+<div class="chart-wrapper">
+    <canvas baseChart 
+        [datasets]="lineChartData" 
+        [labels]="lineChartLabels" 
+        [options]="lineChartOptions"
+        [colors]="lineChartColors" 
+        [legend]="lineChartLegend" 
+        [chartType]="lineChartType" 
+        [plugins]="lineChartPlugins">
+    </canvas>
+</div>
+</div>
+<div *ngIf="stat2">
+    <div class="chart-wrapper">
+        <canvas baseChart 
+            [datasets]="lineChartData2" 
+            [labels]="lineChartLabels" 
+            [options]="lineChartOptions"
+            [colors]="lineChartColors" 
+            [legend]="lineChartLegend" 
+            [chartType]="lineChartType" 
+            [plugins]="lineChartPlugins">
+        </canvas>
+    </div>
+</div>
+</div>

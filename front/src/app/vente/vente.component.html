@@ -1,0 +1,226 @@
+<div class="container">
+  <h1>{{title}}</h1>
+  <button *ngIf="ss && re && cc" (click)="s()" type="button" class="btn btn-outline-dark">Ajouter une commande</button>
+  <button *ngIf="!ss && re && cc" (click)="s()" type="button" class="btn btn-outline-dark">Retour</button>
+  <button *ngIf="!re && cc" (click)="s2()" type="button" class="btn btn-outline-dark">Retour</button>
+  <button *ngIf="!cc" (click)="s3()" type="button" class="btn btn-outline-dark">Retour</button>
+</div>
+<div *ngIf="cc">
+  <div *ngIf="re">
+    <div *ngIf="ss">
+      <div>
+        <div *ngIf="!load" class="loader"></div>
+        <div *ngIf="load">
+          <div class="md-form mt-0">
+            <select class="form-control" [(ngModel)]="rechc" name="rechc" type="text" required>
+              <option *ngFor="let cl of clients" [value]="cl.Nom">{{cl.Nom}}</option>
+            </select><button (click)="search()" type="button" class="btn btn-outline-secondary"><i
+                class="fas fa-search"></i></button>
+          </div>
+          <table class="table table-bordered table-hover">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Num</th>
+                <th scope="col">Client</th>
+                <th scope="col">Nature de paiment</th>
+                <th scope="col">Date de commande</th>
+                <th scope="col">Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let vt of ventes.slice().reverse()| paginate : config">
+                <th scope="row">{{vt.Ref}}</th>
+                <td>{{vt.Nomc}}</td>
+                <td>{{vt.type}}</td>
+                <td>{{vt.date | date:'yyyy-MM-dd'}}</td>
+                <td><button type="button" class="btn btn-isnfo" (click)="det(vt.Ref,vt.Nomc,vt.type,vt.date,vt._id,vt.produit)"
+                    type="button"><i class="fas fa-info-circle"></i></button></td>
+              </tr>
+            </tbody>
+          </table>
+          <pagination-template #p="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
+              <div class="custom-pagination">
+                  <div class="pagination-previous" [class.disabled]="p.isFirstPage()">
+                      <span  (click)="p.previous()"><i class="fas fa-arrow-circle-left"></i> Prev </span> 
+                  </div> 
+                  <div class="page-number" *ngFor="let page of p.pages" [class.current]="p.getCurrent() === page.value">
+                      <span (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">{{ page.label }}</span>
+                      <div *ngIf="p.getCurrent() === page.value">
+                        <span>{{ page.label }}</span>
+                      </div>
+                  </div>
+                  <div class="pagination-next" [class.disabled]="p.isLastPage()">
+                    <span (click)="p.next()"> Next <i class="fas fa-arrow-circle-right"></i> </span>
+                  </div>
+              </div>
+            </pagination-template>
+        </div>
+
+      </div>
+    </div>
+    <div *ngIf="!ss">
+      <div class="col-md-6 offset-md-3">
+        <span class="anchor" id="formRegister"></span>
+        <div class="card card-outline-secondary">
+          <div class="card-header">
+            <h3 class="mb-0">Ajouter Une Commande Client</h3>
+          </div>
+          <div class="card-body">
+            <form #f="ngForm" class="form" role="form">
+              <div class="form-group">
+                <label for="inputName">Reference</label>
+                <input class="form-control" [(ngModel)]="Ref" name="Ref" type="text">
+              </div>
+              <div class="form-group">
+                <label for="inputEmail3">Nom du client</label>
+                <select class="form-control" [(ngModel)]="Nomc" name="Nomc" required>
+                  <option *ngFor="let cl of clients" [value]="cl.Nom">{{cl.Nom}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword3">Nombre de produit</label>
+                <input class="form-control" [(ngModel)]="nbr" name="nbr" type="number" min="1" required>
+              </div>
+              <div class="form-row mt-4" *ngFor="let i of createRange(nbr)">
+                <div class="col-sm-5 pb-3">
+                  <label for="exampleAccount">Nom du produit</label>
+                  <select type="text" class="form-control" [ngModel]="'Nomp'+i" [name]="'Nomp'+i">
+                    <option *ngFor="let stk of stocks" [value]="stk.Nom">{{stk.Nom}}</option>
+                  </select>
+                </div>
+                <div class="col-sm-5 pb-3">
+                  <label for="exampleCtrl">Quantite</label>
+                  <input class="form-control" [ngModel]="'quantite'+i" [name]="'quantite'+i" type="number" min="1">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword3">Type de paiement</label>
+                <select class="form-control" [(ngModel)]="type" name="type" required>
+                  <option value="Espece">Espece</option>
+                  <option value="Cheque">Cheque</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword3">Date</label>
+                <input class="form-control" [(ngModel)]="date" name="date" type="Date" required>
+              </div>
+              <div class="form-group">
+                <button type="submit" (click)="Addvente(f)"
+                  class="btn btn-outline-dark btn-lg float-right">Ajouter</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!re">
+    <div *ngIf="load" >
+    <table class="table table-bordered table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Num</th>
+          <th scope="col">Client</th>
+          <th scope="col">Nature de paiment</th>
+          <th scope="col">Date de commande</th>
+          <th scope="col">Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vt of venter.slice().reverse() | paginate : config">
+          <th scope="row">{{vt.Ref}}</th>
+          <td>{{vt.Nomc}}</td>
+          <td>{{vt.type}}</td>
+          <td>{{vt.date | date:'yyyy-MM-dd'}}</td>
+          <td><button type="button" class="btn btn-oudtline-info" (click)="det(vt.Ref,vt.Nomc,vt.type,vt.date,vt._id,vt.produit)" type="button"><i class="fas fa-info-circle"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-template #p="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
+        <div class="custom-pagination">
+            <div class="pagination-previous" [class.disabled]="p.isFirstPage()">
+                <span  (click)="p.previous()"><i class="fas fa-arrow-circle-left"></i> Prev </span> 
+            </div> 
+            <div class="page-number" *ngFor="let page of p.pages" [class.current]="p.getCurrent() === page.value">
+                <span (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">{{ page.label }}</span>
+                <div *ngIf="p.getCurrent() === page.value">
+                  <span>{{ page.label }}</span>
+                </div>
+            </div>
+            <div class="pagination-next" [class.disabled]="p.isLastPage()">
+              <span (click)="p.next()"> Next <i class="fas fa-arrow-circle-right"></i> </span>
+            </div>
+        </div>
+      </pagination-template>
+  </div>
+  </div>
+</div>
+<div *ngIf="!cc">
+  <div id="print-section">
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+          <tr class="top">
+            <td colspan="2">
+              <table>
+                <tr>
+                  <td class="title">
+                    <img src="../../assets/logo.png" style="width:80%; max-width:200px;">
+                  </td>
+                  <td>
+                    Reference : {{Refe}}<br>
+                    Cree en: {{date}}<br>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr class="information">
+            <td colspan="2">
+              <table>
+                <tr>
+                  <td>
+                    FastAmbalaj<br>
+                    N° 20 RDC, Avenue Nachkour Rahal<br>
+                    Sidi Bernoussi, Casablanca
+                  </td>
+                  <td>
+                    {{detailclient.Nom}}<br>
+                    {{detailclient.Email}}<br>
+                    0{{detailclient.Tel}}<br>
+                    {{detailclient.Address}}<br>
+                    {{detailclient.Ville}}<br>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr class="heading">
+            <td>Methode de paiement</td>
+            <td>{{type}}</td>
+          </tr>
+          <tr class="details">
+            <td>{{type}}</td>
+            <td>{{total}}</td>
+          </tr>
+          <tr class="heading">
+            <td>Produits</td>
+            <td>Prix totale</td>
+          </tr>
+          <tr *ngFor="let a of produit; index as i" class="item">
+            <td>{{a.Nomp}}&nbsp;&nbsp;x&nbsp;&nbsp;{{a.quantite}} p</td>
+            <td>{{a.prix * a.quantite}}</td>
+          </tr>
+          <tr class="total">
+            <td></td>
+            <td>Total: {{total}}</td>
+          </tr>
+        </table>
+    </div>
+  </div>
+  <div class="row no-print">
+      <div class="col-xs-12">
+          <button  styleSheetFile="assets/css/custom1.css" printSectionId="print-section" ngxPrint class="btn btn-primary pull-right" style="margin: 20px 0px 20px 1000px;"><i class="fa fa-print"></i>Print</button>
+      </div>
+  </div>
+</div>

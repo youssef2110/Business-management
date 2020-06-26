@@ -1,0 +1,185 @@
+table{
+    width : 1030px;
+    margin-left: 320px;
+}
+h1{
+  margin: 0px 0px 30px 500px;
+}
+.container .btn-outline-dark{
+  float: right;
+  margin: -70px 0px 30px;
+}
+.table-hover td,th{
+  text-align: center;
+}
+.col-md-6 {
+  margin-left: 500px;
+  margin-bottom: 30px;
+}
+.loader {
+  margin: 150px 0px 0px 750px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #666e74;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.invoice-box {
+  max-width: 800px;
+  margin-left: 370px;
+  padding: 30px;
+  border: 1px solid #eee;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+  font-size: 16px;
+  line-height: 24px;
+  font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+  color: #555;
+}
+.invoice-box table{
+  margin-left: 0px;
+  width : 700px;
+}
+
+.invoice-box table {
+  line-height: inherit;
+  text-align: left;
+}
+
+.invoice-box table td {
+  padding: 5px;
+  vertical-align: top;
+}
+
+.invoice-box table tr td:nth-child(2) {
+  text-align: right;
+}
+
+.invoice-box table tr.top table td {
+  padding-bottom: 20px;
+}
+
+.invoice-box table tr.top table td.title {
+  font-size: 45px;
+  line-height: 45px;
+  color: #333;
+}
+
+.invoice-box table tr.information table td {
+  padding-bottom: 40px;
+}
+
+.invoice-box table tr.heading td {
+  background: #eee;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold;
+}
+
+.invoice-box table tr.details td {
+  padding-bottom: 20px;
+}
+
+.invoice-box table tr.item td{
+  border-bottom: 1px solid #eee;
+}
+
+.invoice-box table tr.item.last td {
+  border-bottom: none;
+}
+
+.invoice-box table tr.total td:nth-child(2) {
+  border-top: 2px solid #eee;
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+  .invoice-box table tr.top table td {
+      width: 100%;
+      display: block;
+      text-align: center;
+  }
+  
+  .invoice-box table tr.information table td {
+      width: 100%;
+      display: block;
+      text-align: center;
+  }
+}
+
+/** RTL **/
+.rtl {
+  direction: rtl;
+  font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+}
+
+.rtl table {
+  text-align: right;
+}
+
+.rtl table tr td:nth-child(2) {
+  text-align: left;
+}
+pagination-template{
+  text-align: center;
+  margin: 30px 20px;
+}
+.custom-pagination{
+  margin-left: 320px;
+.page-number{
+  display: inline-block;
+  padding: 2px; 
+  background: #fafafa;
+  margin: 0px 4px;
+  border-radius: 5px;
+}
+}
+
+.page-number.current{
+  background: #292b2c!important;
+  color: #fafafa;
+}
+
+.page-number span{
+  text-align: center;
+  display: block;
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.pagination-previous{
+  cursor: pointer;
+  float: left;
+}
+.pagination-next{
+  cursor: pointer;
+  float: right;
+}
+.pagination-previous span{
+  text-align: center;
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+.pagination-next span{
+  text-align: center;
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+.pagination-previous :hover{
+  background-color: #f3f5f9;
+}
+.pagination-next :hover{
+  background-color: #f3f5f9;
+}

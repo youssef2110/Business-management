@@ -1,0 +1,29 @@
+
+<div class="bg-dark" id="container">
+    <div *ngIf="Uti">
+    <img id="logo" src="../../assets/logo.png" alt="logo">
+    <button (click)="s()" class="btn btn-light">Espace Admin</button>
+    <div id="form">
+        <h1>Espace Utilisateur</h1>
+        <form #f="ngForm" >
+            <label>Identifiant</label><input [(ngModel)]="Iden" name="Iden" type="text" required>
+            <label>Password</label><input [(ngModel)]="Pass" name="Pass" type="password" required>
+            <p style="color:red; text-align : center;">{{Alert}}</p>
+            <input (click)="onSubmit(f)" id="button" type="submit">
+        </form>
+    </div>
+    </div>
+    <div *ngIf="!Uti">
+    <img id="logo" src="../../assets/logo.png" alt="logo">
+    <button (click)="s()" class="btn btn-light">Espace Utilisateur</button>
+    <div id="form">
+        <h1>Espace Admin</h1>
+        <form #f="ngForm" >
+            <label>Identifiant</label><input [(ngModel)]="Iden" name="Iden" type="text" required>
+            <label>Password</label><input [(ngModel)]="Pass" name="Pass" type="password" required>
+            <p>{{Alert}}</p>
+            <input (click)="onSubmit2(f)" id="button" type="submit">
+        </form>
+    </div>
+    </div>
+</div>

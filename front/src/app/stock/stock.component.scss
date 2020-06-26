@@ -1,0 +1,92 @@
+table{
+    width : 1030px;
+    margin-left: 320px;
+}
+h1{
+  margin: 0px 0px 30px 620px;
+}
+.container2{
+  margin-left: 340px;
+  margin-bottom: 20px;
+}
+.container2{
+.btn-outline-dark{
+  margin: 0px 0px 20px 130px;
+}}
+.col-md-6 {
+  margin-left: 500px;
+  margin-bottom: 30px;
+}
+.loader {
+  margin: 100px 0px 0px 750px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #666e74;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+pagination-template{
+  text-align: center;
+  margin: 30px 20px;
+}
+.custom-pagination{
+  margin-left: 320px;
+.page-number{
+  display: inline-block;
+  padding: 2px; 
+  background: #fafafa;
+  margin: 0px 4px;
+  border-radius: 5px;
+}
+}
+
+.page-number.current{
+  background: #292b2c!important;
+  color: #fafafa;
+}
+
+.page-number span{
+  text-align: center;
+  display: block;
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.pagination-previous{
+  cursor: pointer;
+  float: left;
+}
+.pagination-next{
+  cursor: pointer;
+  float: right;
+}
+.pagination-previous span{
+  text-align: center;
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+.pagination-next span{
+  text-align: center;
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+.pagination-previous :hover{
+  background-color: #f3f5f9;
+}
+.pagination-next :hover{
+  background-color: #f3f5f9;
+}

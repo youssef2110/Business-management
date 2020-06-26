@@ -1,0 +1,135 @@
+<div *ngIf="ajoute" class="alert alert-warning alert-dismissible fade show" role="alert">
+<strong>Holy guacamole!</strong> You should check in on some of those fields below.
+<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="container">
+    <h1>{{title}}</h1>
+    <button *ngIf="ss && re" (click)="s()" type="button" class="btn btn-outline-dark">Ajouter un
+        Utilisateur</button>
+    <button *ngIf="!ss && re" (click)="s()" type="button" class="btn btn-outline-dark">Retour</button>
+    <button *ngIf="!re " (click)="s2()" type="button" class="btn btn-outline-dark">Retour</button>
+</div>
+
+<div *ngIf="re">
+    <div *ngIf="ss">
+        <div>
+            <div *ngIf="!load" class="loader"></div>
+            <div *ngIf="load">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Nom et Prenom</th>
+                            <th scope="col">Service</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let us of users| paginate : config">
+                            <td>{{us.Nom}} {{us.Prenom}}</td>
+                            <td>{{us.Service}}</td>
+                            <td width="100px"><button type="button" class="btn btn-success" (click)="edit(us.Iden,us.Nom,us.Prenom,us.Service,us.Password)"><i class="fas fa-edit"></i></button>&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="supp(us.Iden)"><i class="fas fa-trash"></i></button></td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <pagination-template #p="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
+                    <div class="custom-pagination">
+                        <div class="pagination-previous" [class.disabled]="p.isFirstPage()">
+                            <span (click)="p.previous()"><i class="fas fa-arrow-circle-left"></i> Prev </span>
+                        </div>
+                        <div class="page-number" *ngFor="let page of p.pages"
+                            [class.current]="p.getCurrent() === page.value">
+                            <span (click)="p.setCurrent(page.value)"
+                                *ngIf="p.getCurrent() !== page.value">{{ page.label }}</span>
+                            <div *ngIf="p.getCurrent() === page.value">
+                                <span>{{ page.label }}</span>
+                            </div>
+                        </div>
+                        <div class="pagination-next" [class.disabled]="p.isLastPage()">
+                            <span (click)="p.next()"> Next <i class="fas fa-arrow-circle-right"></i> </span>
+                        </div>
+                    </div>
+                </pagination-template>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="!ss">
+        <div class="col-md-6 offset-md-3">
+            <span class="anchor" id="formRegister"></span>
+            <div class="card card-outline-secondary">
+                <div class="card-header">
+                    <h3 class="mb-0">Ajouter Un Utilisateur</h3>
+                </div>
+                <div class="card-body">
+                    <form #f="ngForm" class="form" role="form">
+                        <div class="form-group">
+                            <label >Identifiant</label>
+                            <input class="form-control" [(ngModel)]="Iden" name="Iden" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label >Nom</label>
+                            <input class="form-control" [(ngModel)]="Nom" name="Nom" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label >Prénom</label>
+                            <input class="form-control" [(ngModel)]="Prenom" name="Prenom" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label >Service</label>
+                            <input class="form-control" [(ngModel)]="Service" name="Service" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label >Mot de passe</label>
+                            <input class="form-control" [(ngModel)]="Password" name="Password" type="text">
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" (click)="Adduser(f)"
+                                class="btn btn-outline-dark btn-lg float-right">Ajouter</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="!re">
+<div class="col-md-6 offset-md-3">
+    <span class="anchor" id="formRegister"></span>
+    <div class="card card-outline-secondary">
+      <div class="card-header">
+        <h3 class="mb-0">Modifier Un Utilisateur</h3>
+      </div>
+      <div class="card-body">
+        <form #f="ngForm" class="form" role="form">
+            <div class="form-group">
+                <label >Identifiant</label>
+                <input class="form-control" [(ngModel)]="iden" name="iden" type="text">
+            </div>
+            <div class="form-group">
+                <label >Nom</label>
+                <input class="form-control" [(ngModel)]="nom" name="nom" type="text">
+            </div>
+            <div class="form-group">
+                <label >Prénom</label>
+                <input class="form-control" [(ngModel)]="prenom" name="prenom" type="text">
+            </div>
+            <div class="form-group">
+                <label >Service</label>
+                <input class="form-control" [(ngModel)]="service" name="service" type="text">
+            </div>
+            <div class="form-group">
+                <label >Mot de passe</label>
+                <input class="form-control" [(ngModel)]="password" name="password" type="text" required>
+            </div>
+            <input class="form-control" [(ngModel)]="Tex" name="Tex" type="text" style="display: none;">
+            <div class="form-group">
+                <button type="submit" (click)="edit2(f)"
+                    class="btn btn-outline-dark btn-lg float-right">Ajouter</button>
+            </div>
+        </form>
+    </div>
+    </div>
+  </div>
+</div>

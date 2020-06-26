@@ -1,0 +1,220 @@
+<div class="container">
+  <h1>{{title}}</h1>
+  <button *ngIf="ediit" (click)="Retour()" type="button" style="float: right;
+  margin: -70px 0px 30px;" class="btn btn-outline-dark">Retour</button>
+</div>
+
+<div *ngIf="!ediit">
+<div class="container2">
+  <button *ngIf="!stoo" (click)="showst()" type="button"
+    class="btn btn-outline-dark">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stock&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+  <button *ngIf="!ent" (click)="showe()" type="button" class="btn btn-outline-dark">Dernière entrée</button>
+  <button *ngIf="!sor" (click)="shows()" type="button" class="btn btn-outline-dark">Dernière sortie</button>
+  <button *ngIf="!ajou" (click)="showa()" type="button" class="btn btn-outline-dark">Ajouter un produit</button>
+</div>
+<div *ngIf="stoo">
+  <div *ngIf="!load" class="loader"></div>
+  <div *ngIf="load">
+    <table class="table table-bordered table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Ref</th>
+          <th scope="col">Produit</th>
+          <th scope="col">Type</th>
+          <th scope="col">prix</th>
+          <th scope="col">Stock</th>
+          <th scoop="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let stk of stock | paginate : config ">
+          <td scope="row">{{stk.Ref}}</td>
+          <td>{{stk.Nom}}</td>
+          <td>{{stk.Type}}</td>
+          <td>{{stk.Prix}}</td>
+          <td>{{stk.stock}}</td>
+          <td width="100px"><button type="button" class="btn btn-success" (click)="edit(stk.Ref,stk.Nom,stk.Type,stk.Prix,stk.stock)"><i class="fas fa-edit"></i></button>&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-danger" (click)="supp(stk.Ref)"><i class="fas fa-trash"></i></button></td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-template #p="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
+      <div class="custom-pagination">
+        <div class="pagination-previous" [class.disabled]="p.isFirstPage()">
+          <span (click)="p.previous()"><i class="fas fa-arrow-circle-left"></i> Prev </span>
+        </div>
+        <div class="page-number" *ngFor="let page of p.pages" [class.current]="p.getCurrent() === page.value">
+          <span (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">{{ page.label }}</span>
+          <div *ngIf="p.getCurrent() === page.value">
+            <span>{{ page.label }}</span>
+          </div>
+        </div>
+        <div class="pagination-next" [class.disabled]="p.isLastPage()">
+          <span (click)="p.next()"> Next <i class="fas fa-arrow-circle-right"></i> </span>
+        </div>
+      </div>
+    </pagination-template>
+  </div>
+</div>
+<div *ngIf="sor">
+  <div *ngIf="load">
+    <table class="table table-bordered table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Num</th>
+          <th scope="col">Produit</th>
+          <th scope="col">Type</th>
+          <th scope="col">Stock</th>
+          <th scope="col">Dernière MAJ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let stk of stocks.slice().reverse()| paginate : config ">
+          <td scope="row">{{stk.Ref}}</td>
+          <td>{{stk.Nom}}</td>
+          <td>{{stk.type}}</td>
+          <td>{{stk.nbrstock}}</td>
+          <td>{{stk.derMaj | date:'yyyy-MM-dd'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <pagination-template #p="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
+    <div class="custom-pagination">
+      <div class="pagination-previous" [class.disabled]="p.isFirstPage()">
+        <span (click)="p.previous()"><i class="fas fa-arrow-circle-left"></i> Prev </span>
+      </div>
+      <div class="page-number" *ngFor="let page of p.pages" [class.current]="p.getCurrent() === page.value">
+        <span (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">{{ page.label }}</span>
+        <div *ngIf="p.getCurrent() === page.value">
+          <span>{{ page.label }}</span>
+        </div>
+      </div>
+      <div class="pagination-next" [class.disabled]="p.isLastPage()">
+        <span (click)="p.next()"> Next <i class="fas fa-arrow-circle-right"></i> </span>
+      </div>
+    </div>
+  </pagination-template>
+</div>
+<div *ngIf="ent">
+  <div *ngIf="load">
+    <table class="table table-bordered table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Num</th>
+          <th scope="col">Produit</th>
+          <th scope="col">Type</th>
+          <th scope="col">Stock</th>
+          <th scope="col">Dernière MAJ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let stk of stocke.slice().reverse()| paginate : config ">
+          <td scope="row">{{stk.Ref}}</td>
+          <td>{{stk.Nom}}</td>
+          <td>{{stk.type}}</td>
+          <td>{{stk.nbrstock}}</td>
+          <td>{{stk.derMaj | date:'yyyy-MM-dd'}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-template #p="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
+      <div class="custom-pagination">
+        <div class="pagination-previous" [class.disabled]="p.isFirstPage()">
+          <span (click)="p.previous()"><i class="fas fa-arrow-circle-left"></i> Prev </span>
+        </div>
+        <div class="page-number" *ngFor="let page of p.pages" [class.current]="p.getCurrent() === page.value">
+          <span (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">{{ page.label }}</span>
+          <div *ngIf="p.getCurrent() === page.value">
+            <span>{{ page.label }}</span>
+          </div>
+        </div>
+        <div class="pagination-next" [class.disabled]="p.isLastPage()">
+          <span (click)="p.next()"> Next <i class="fas fa-arrow-circle-right"></i> </span>
+        </div>
+      </div>
+    </pagination-template>
+  </div>
+</div>
+<div *ngIf="ajou">
+  <div class="col-md-6 offset-md-3">
+    <span class="anchor" id="formRegister"></span>
+    <div class="card card-outline-secondary">
+      <div class="card-header">
+        <h3 class="mb-0">Ajouter Un Produit</h3>
+      </div>
+      <div class="card-body">
+        <form #f="ngForm" class="form" role="form">
+          <div class="form-group">
+            <label for="inputName">Reference</label>
+            <input class="form-control" [(ngModel)]="Ref" name="Ref" type="text">
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3">Nom du produit</label>
+            <input class="form-control" [(ngModel)]="Nom" name="Nom" type="text" required>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3">Type</label>
+            <input class="form-control" [(ngModel)]="type" name="type" type="text" required>
+          </div>
+          <div class="form-group">
+            <label for="inputVerify3">Prix</label>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend"><span class="input-group-text">$</span></div>
+              <input class="form-control" [(ngModel)]="prix" name="prix" type="number" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <button type="submit" (click)="Addprod(f)" class="btn btn-outline-dark btn-lg float-right">Ajouter</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div *ngIf="ediit">
+  <div class="col-md-6 offset-md-3">
+    <span class="anchor" id="formRegister"></span>
+    <div class="card card-outline-secondary">
+      <div class="card-header">
+        <h3 class="mb-0">Modifier Un Produit</h3>
+      </div>
+      <div class="card-body">
+        <form #f="ngForm" class="form" role="form">
+          <div class="form-group">
+            <label for="inputName">Reference</label>
+            <input class="form-control" [(ngModel)]="num" name="num" type="text">
+          </div>
+          <div class="form-group">
+            <label for="inputEmail3">Nom du produit</label>
+            <input class="form-control" [(ngModel)]="nom" name="nom" type="text" required>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword3">Type</label>
+            <input class="form-control" [(ngModel)]="Type" name="Type" type="text" required>
+          </div>
+          <div class="form-group">
+            <label for="inputName">Nombre dans stock</label>
+            <input class="form-control" [(ngModel)]="nbrstock" name="nbrstock" type="number">
+          </div>
+          <div class="form-group">
+            <label for="inputVerify3">Prix</label>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend"><span class="input-group-text">$</span></div>
+              <input class="form-control" [(ngModel)]="prix" name="prix" type="number" required>
+            </div>
+          </div>
+          <input class="form-control" [(ngModel)]="Tex" name="Tex" type="text" style="display: none;">
+          <div class="form-group">
+            <button type="submit" (click)="edit2(f)" class="btn btn-outline-dark btn-lg float-right">Ajouter</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

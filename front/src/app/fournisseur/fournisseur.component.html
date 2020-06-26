@@ -1,0 +1,182 @@
+<div class="container">
+  <h1>{{title}}</h1>
+  <button *ngIf="sho && det && detco" (click)="show()" type="button" class="btn btn-outline-dark">Add
+    Fournisseur</button>
+  <button *ngIf="!sho && det && detco" (click)="show()" type="button" class="btn btn-outline-dark">Retour</button>
+  <button *ngIf="!det && detco" (click)="s2()" type="button" class="btn btn-outline-dark">Retour</button>
+  <button *ngIf="!detco" (click)="s3()" type="button" class="btn btn-outline-dark">Retour</button>
+</div>
+<div *ngIf="detco">
+  <div *ngIf="det">
+    <div *ngIf="sho">
+      <div *ngIf="!load" class="loader"></div>
+      <div *ngIf="load">
+        <table class="table table-bordered table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Ref</th>
+              <th scope="col">Nom</th>
+              <th scope="col">Tel</th>
+              <th scope="col">Email</th>
+              <th scope="col">Address</th>
+              <th scope="col">Ville</th>
+              <th scope="col">Commande(s)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let frn of fourn| paginate : config">
+              <th scope="row">{{frn.Ref}}</th>
+              <td>{{frn.Nom}}</td>
+              <td>0{{frn.Tel}}</td>
+              <td>{{frn.Email}}</td>
+              <td>{{frn.Address}}</td>
+              <td>{{frn.Ville}}</td>
+              <td><button type="button" class="btn btn-doutline-ark" (click)="detf(frn.Nom)"><i class="fas fa-eye"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-template #p="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
+          <div class="custom-pagination">
+            <div class="pagination-previous" [class.disabled]="p.isFirstPage()">
+              <span (click)="p.previous()"><i class="fas fa-arrow-circle-left"></i> Prev </span>
+            </div>
+            <div class="page-number" *ngFor="let page of p.pages" [class.current]="p.getCurrent() === page.value">
+              <span (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">{{ page.label }}</span>
+              <div *ngIf="p.getCurrent() === page.value">
+                <span>{{ page.label }}</span>
+              </div>
+            </div>
+            <div class="pagination-next" [class.disabled]="p.isLastPage()">
+              <span (click)="p.next()"> Next <i class="fas fa-arrow-circle-right"></i> </span>
+            </div>
+          </div>
+        </pagination-template>
+      </div>
+    </div>
+    <div *ngIf="!sho">
+      <div class="col-md-6 offset-md-3">
+        <span class="anchor" id="formRegister"></span>
+        <div class="card card-outline-secondary">
+          <div class="card-header">
+            <h3 class="mb-0">Ajouter Un Fournisseur</h3>
+          </div>
+          <div class="card-body">
+            <form #f="ngForm" class="form" role="form">
+              <div class="form-group">
+                <label for="inputName">Reference</label>
+                <input class="form-control" [(ngModel)]="Ref" name="Ref" type="text" required>
+              </div>
+              <div class="form-group">
+                <label for="inputEmail3">Nom du fournisseur</label>
+                <input class="form-control" [(ngModel)]="Nom" name="Nom" type="text" required>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword3">Telephone</label>
+                <input class="form-control" [(ngModel)]="Tel" name="Tel" type="number" min="1" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleAccount">Adresse</label>
+                <input type="text" class="form-control" [(ngModel)]="Address" name="Address" type="text" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleCtrl">Ville</label>
+                <input class="form-control" [(ngModel)]="Ville" name="Ville" type="ville" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleCtrl">Email</label>
+                <input class="form-control" [(ngModel)]="Email" name="Email" type="email" min="1">
+              </div>
+              <div class="form-group">
+                <button type="submit" (click)="Addfourn(f)"
+                  class="btn btn-outline-dark btn-lg float-right">Ajouter</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!det">
+    <div *ngIf="load">
+      <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Num</th>
+            <th scope="col">Fournisseur</th>
+            <th scope="col">Date de commande</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ac of achatr | paginate : config">
+            <th scope="row">{{ac.Ref}}</th>
+            <td>{{ac.Nomf}}</td>
+            <td>{{ac.date | date:'yyyy-MM-dd'}}</td>
+            <td><button type="button" class="btn btn-oudtline-info" (click)="detc(ac.Ref,ac.Nomf,ac.date,ac._id,ac.produit)" type="button"><i class="fas fa-info-circle"></i></button></td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-template #p="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
+        <div class="custom-pagination">
+          <div class="pagination-previous" [class.disabled]="p.isFirstPage()">
+            <span (click)="p.previous()"><i class="fas fa-arrow-circle-left"></i> Prev </span>
+          </div>
+          <div class="page-number" *ngFor="let page of p.pages" [class.current]="p.getCurrent() === page.value">
+            <span (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">{{ page.label }}</span>
+            <div *ngIf="p.getCurrent() === page.value">
+              <span>{{ page.label }}</span>
+            </div>
+          </div>
+          <div class="pagination-next" [class.disabled]="p.isLastPage()">
+            <span (click)="p.next()"> Next <i class="fas fa-arrow-circle-right"></i> </span>
+          </div>
+        </div>
+      </pagination-template>
+    </div>
+  </div>
+</div>
+
+<div class="facture" *ngIf="!detco">
+  <section id="print-section" class="content content_content" style="width: 70%; margin: auto;">
+    <section class="invoice">
+      <div class="row">
+        <div class="col-xs-12">
+          <h2 class="page-header">
+            FastAmblaj
+            <small class="pull-right">Date: {{date}}</small>
+          </h2>
+        </div>
+      </div><br><br>
+      <div class="row invoice-info">
+        <div class="col-sm-4 invoice-col">
+          <b>From :</b> {{Nomf}}<br>
+          <b>Adresse :</b><br> {{detailfourn.Address}}, {{detailfourn.Ville}}<br>
+          <b>Email :</b><br> {{detailfourn.Email}}<br><br>
+        </div>
+        <div class="col-sm-4 invoice-col">
+        </div>
+        <div class="col-sm-4 invoice-col">
+          <b>ID de l'ordre:</b> {{Ref}}<br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Quantité</th>
+                <th>Produit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let a of produit; index as i ">
+                <td>{{a.quantite}}</td>
+                <td>{{a.Nomp}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </section>
+</div>

@@ -1,0 +1,222 @@
+<div class="container">
+  <h1>{{title}}</h1>
+  <button *ngIf="sh && det && detco" (click)="show()" type="button" class="btn btn-outline-dark">Add Client</button>
+  <button *ngIf="!sh && det && detco" (click)="show()" type="button" class="btn btn-outline-dark">Retour</button>
+  <button *ngIf="!det && detco" (click)="s2()" type="button" class="btn btn-outline-dark">Retour</button>
+  <button *ngIf="!detco" (click)="s3()" type="button" class="btn btn-outline-dark">Retour</button>
+</div>
+<div *ngIf="detco">
+  <div *ngIf="det">
+    <div *ngIf="sh">
+      <div *ngIf="!load" class="loader"></div>
+      <div *ngIf="load" >
+      <table *ngIf="load" class="table table-bordered table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Ref</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Tel</th>
+            <th scope="col">Email</th>
+            <th scope="col">Address</th>
+            <th scope="col">Ville</th>
+            <th scope="col">Commande(s)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cli of client| paginate : config ">
+            <th scope="row">{{cli.Ref}}</th>
+            <td>{{cli.Nom}}</td>
+            <td>0{{cli.Tel}}</td>
+            <td>{{cli.Email}}</td>
+            <td>{{cli.Address}}</td>
+            <td>{{cli.Ville}}</td>
+            <td><button type="button" class="btn btn-xoutline-dark" (click)="detc(cli.Nom)"><i class="fas fa-eye"></i></button></td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-template #p="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
+          <div class="custom-pagination">
+              <div class="pagination-previous" [class.disabled]="p.isFirstPage()">
+                  <span  (click)="p.previous()"><i class="fas fa-arrow-circle-left"></i> Prev </span> 
+              </div> 
+              <div class="page-number" *ngFor="let page of p.pages" [class.current]="p.getCurrent() === page.value">
+                  <span (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">{{ page.label }}</span>
+                  <div *ngIf="p.getCurrent() === page.value">
+                    <span>{{ page.label }}</span>
+                  </div>
+              </div>
+              <div class="pagination-next" [class.disabled]="p.isLastPage()">
+                <span (click)="p.next()"> Next <i class="fas fa-arrow-circle-right"></i> </span>
+              </div>
+          </div>
+        </pagination-template>
+      </div>
+    </div>
+    <div *ngIf="!sh">
+      <div class="col-md-6 offset-md-3">
+        <span class="anchor" id="formRegister"></span>
+        <div class="card card-outline-secondary">
+          <div class="card-header">
+            <h3 class="mb-0">Ajouter Un Client</h3>
+          </div>
+          <div class="card-body">
+            <form #f="ngForm" class="form" role="form">
+              <div class="form-group">
+                <label for="inputName">Reference</label>
+                <input class="form-control" [(ngModel)]="Ref" name="Ref" type="text" required>
+              </div>
+              <div class="form-group">
+                <label for="inputEmail3">Nom du client</label>
+                <input class="form-control" [(ngModel)]="Nom" name="Nom" type="text" required>
+              </div>
+              <div class="form-group">
+                <label for="inputPassword3">Telephone</label>
+                <input class="form-control" [(ngModel)]="Tel" name="Tel" type="number" min="1" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleAccount">Adresse</label>
+                <input type="text" class="form-control" [(ngModel)]="Address" name="Address" type="text" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleCtrl">Ville</label>
+                <input class="form-control" [(ngModel)]="Ville" name="Ville" type="ville" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleCtrl">Email</label>
+                <input class="form-control" [(ngModel)]="Email" name="Email" type="email" min="1">
+              </div>
+              <div class="form-group">
+                <button type="submit" (click)="Addclient(f)"
+                  class="btn btn-outline-dark btn-lg float-right">Ajouter</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!det">
+    <div *ngIf="load"> 
+    <table class="table table-bordered table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Ref</th>
+          <th scope="col">Client</th>
+          <th scope="col">Nature de paiment</th>
+          <th scope="col">Date de commande</th>
+          <th scope="col">Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vt of venter| paginate : config">
+          <th scope="row">{{vt.Ref}}</th>
+          <td>{{vt.Nomc}}</td>
+          <td>{{vt.type}}</td>
+          <td>{{vt.date | date:'yyyy-MM-dd'}}</td>
+          <td><button type="button" class="btn btn-xoutline-info" (click)="dettco(vt.Ref,vt.Nomc,vt.type,vt.date,vt._id,vt.produit)" type="button"><i class="fas fa-info-circle"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-template #p="paginationApi" [id]="config.id" (pageChange)="config.currentPage = $event">
+        <div class="custom-pagination">
+            <div class="pagination-previous" [class.disabled]="p.isFirstPage()">
+                <span  (click)="p.previous()"><i class="fas fa-arrow-circle-left"></i> Prev </span> 
+            </div> 
+            <div class="page-number" *ngFor="let page of p.pages" [class.current]="p.getCurrent() === page.value">
+                <span (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">{{ page.label }}</span>
+                <div *ngIf="p.getCurrent() === page.value">
+                  <span>{{ page.label }}</span>
+                </div>
+            </div>
+            <div class="pagination-next" [class.disabled]="p.isLastPage()">
+              <span (click)="p.next()"> Next <i class="fas fa-arrow-circle-right"></i> </span>
+            </div>
+        </div>
+      </pagination-template>
+    </div>
+  </div>
+</div>
+<div *ngIf="!detco">
+  <div id="print-section">
+<div class="invoice-box">
+    <table cellpadding="0" cellspacing="0">
+      <tr class="top">
+        <td colspan="2">
+          <table>
+            <tr>
+              <td class="title">
+                <img src="../../assets/logo.png" style="width:80%; max-width:200px;">
+              </td>
+              <td>
+                Reference : {{Refe}}<br>
+                Cree en: {{date}}<br>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr class="information">
+        <td colspan="2">
+          <table>
+            <tr>
+              <td>
+                FastAmbalaj<br>
+                N° 20 RDC, Avenue Nachkour Rahal<br>
+                Sidi Bernoussi, Casablanca
+              </td>
+              <td>
+                {{detailclient.Nom}}<br>
+                {{detailclient.Email}}<br>
+                0{{detailclient.Tel}}<br>
+                {{detailclient.Address}}<br>
+                {{detailclient.Ville}}<br>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr class="heading">
+        <td>
+          Methode de paiment
+        </td>
+        <td>
+          {{type}}
+        </td>
+      </tr>
+      <tr class="details">
+        <td>
+          {{type}}
+        </td>
+
+        <td>
+          {{total}}
+        </td>
+      </tr>
+      <tr class="heading">
+        <td>
+          Produits
+        </td>
+        <td>
+          Prix totale
+        </td>
+      </tr>
+      <tr *ngFor="let a of produit; index as i" class="item">
+        <td>{{a.Nomp}}&nbsp;&nbsp;x&nbsp;&nbsp;{{a.quantite}} p</td>
+        <td>{{a.prix * a.quantite}}</td>
+      </tr>
+      <tr class="total">
+        <td></td>
+        <td>
+          Total: {{total}}
+        </td>
+      </tr>
+    </table>
+  </div>
+  </div>
+  <div class="row no-print">
+      <div class="col-xs-12">
+          <button styleSheetFile="assets/css/custom1.css" printSectionId="print-section" ngxPrint class="btn btn-primary pull-right" style="margin: 20px 0px 20px 1000px;"><i class="fa fa-print"></i>Print</button>
+      </div>
+  </div>
+</div>
